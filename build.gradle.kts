@@ -1,5 +1,11 @@
+import io.github.tropheusj.gradle_testing.plugin.TestPlugin
+
 plugins {
     id("java")
+}
+
+apply {
+    plugin(TestPlugin::class)
 }
 
 group = "io.github.tropheusj"
@@ -18,7 +24,7 @@ tasks.register("resolveRuntime") {
         withVariantReselection()
 
         attributes {
-            attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category.LIBRARY))
+            attribute(TestPlugin.TRANSFORMED, true)
         }
     }.artifacts
 
@@ -36,6 +42,7 @@ tasks.register("resolveCompileSources") {
         attributes {
             attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category.DOCUMENTATION))
             attribute(DocsType.DOCS_TYPE_ATTRIBUTE, objects.named(DocsType.SOURCES))
+            attribute(TestPlugin.TRANSFORMED, true)
         }
     }.artifacts
 
