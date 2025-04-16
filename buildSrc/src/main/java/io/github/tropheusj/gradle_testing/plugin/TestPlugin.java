@@ -8,6 +8,7 @@ import org.gradle.api.artifacts.ConfigurationContainer;
 import org.gradle.api.artifacts.dsl.DependencyHandler;
 import org.gradle.api.artifacts.type.ArtifactTypeDefinition;
 import org.gradle.api.attributes.Attribute;
+import org.gradle.api.attributes.Bundling;
 import org.gradle.api.attributes.Category;
 import org.gradle.api.attributes.DocsType;
 import org.gradle.api.attributes.Usage;
@@ -29,7 +30,7 @@ public class TestPlugin implements Plugin<Project> {
 		// jars are non-transformed by default
 		deps.getArtifactTypes().getByName("jar").getAttributes().attribute(TRANSFORMED, false);
 
-		// require transformed-jar attribute type on runtimeClasspath and compileClasspath
+		// require runtimeClasspath and compileClasspath to be transformed=true
 		configurations.named("runtimeClasspath").configure(
 				runtimeClasspath -> runtimeClasspath.getAttributes().attribute(TRANSFORMED, true)
 		);
@@ -51,11 +52,13 @@ public class TestPlugin implements Plugin<Project> {
 		deps.registerTransform(TestSourcesTransform.class, spec -> {
 			spec.getFrom()
 					.attribute(Usage.USAGE_ATTRIBUTE, objects.named(Usage.class, Usage.JAVA_API))
+					.attribute(Bundling.BUNDLING_ATTRIBUTE, objects.named(Bundling.class, Bundling.EXTERNAL))
 					.attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category.class, Category.DOCUMENTATION))
 					.attribute(DocsType.DOCS_TYPE_ATTRIBUTE, objects.named(DocsType.class, DocsType.SOURCES))
 					.attribute(TRANSFORMED, false);
 			spec.getTo()
 					.attribute(Usage.USAGE_ATTRIBUTE, objects.named(Usage.class, Usage.JAVA_API))
+					.attribute(Bundling.BUNDLING_ATTRIBUTE, objects.named(Bundling.class, Bundling.EXTERNAL))
 					.attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category.class, Category.DOCUMENTATION))
 					.attribute(DocsType.DOCS_TYPE_ATTRIBUTE, objects.named(DocsType.class, DocsType.SOURCES))
 					.attribute(TRANSFORMED, true);

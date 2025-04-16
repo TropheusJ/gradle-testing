@@ -23,9 +23,9 @@ tasks.register("resolveRuntime") {
     val view = configurations.runtimeClasspath.get().incoming.artifactView {
         withVariantReselection()
 
-        attributes {
-            attribute(TestPlugin.TRANSFORMED, true)
-        }
+//        attributes {
+//            attribute(TestPlugin.TRANSFORMED, true)
+//        }
     }.artifacts
 
     doLast {
@@ -40,9 +40,11 @@ tasks.register("resolveCompileSources") {
         withVariantReselection()
 
         attributes {
+            attribute(Usage.USAGE_ATTRIBUTE, objects.named(Usage.JAVA_API))
+            attribute(Bundling.BUNDLING_ATTRIBUTE, objects.named(Bundling.EXTERNAL))
             attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category.DOCUMENTATION))
             attribute(DocsType.DOCS_TYPE_ATTRIBUTE, objects.named(DocsType.SOURCES))
-            attribute(TestPlugin.TRANSFORMED, true)
+//            attribute(TestPlugin.TRANSFORMED, true)
         }
     }.artifacts
 

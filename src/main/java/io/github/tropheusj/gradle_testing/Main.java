@@ -1,10 +1,12 @@
 package io.github.tropheusj.gradle_testing;
 
+import com.google.errorprone.annotations.CheckReturnValue;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
 public final class Main {
+	@CheckReturnValue
 	public static void main(String[] args) {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
