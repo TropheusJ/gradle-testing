@@ -16,17 +16,15 @@ repositories {
 }
 
 dependencies {
-    implementation("com.google.code.gson:gson:2.13.0")
+    implementation("com.google.code.gson:gson:2.13.0") {
+        attributes {
+            attribute(TestPlugin.TRANSFORMED, true)
+        }
+    }
 }
 
 tasks.register("resolveRuntime") {
-    val view = configurations.runtimeClasspath.get().incoming.artifactView {
-        withVariantReselection()
-
-//        attributes {
-//            attribute(TestPlugin.TRANSFORMED, true)
-//        }
-    }.artifacts
+    val view = configurations.runtimeClasspath.get().incoming.artifactView {}.artifacts
 
     doLast {
         view.artifactFiles.forEach {
@@ -44,7 +42,6 @@ tasks.register("resolveCompileSources") {
             attribute(Bundling.BUNDLING_ATTRIBUTE, objects.named(Bundling.EXTERNAL))
             attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category.DOCUMENTATION))
             attribute(DocsType.DOCS_TYPE_ATTRIBUTE, objects.named(DocsType.SOURCES))
-//            attribute(TestPlugin.TRANSFORMED, true)
         }
     }.artifacts
 
